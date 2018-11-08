@@ -264,7 +264,7 @@ hr {
 #showmore {
     display: inline-block;
     cursor: pointer;
-    border: 1px solid white;
+    border: 1px solid black;
     color: #707070;
     width: 627px;
     margin-left: 8px;
