@@ -1,0 +1,123 @@
+ /*{
+	
+	border: 1px solid black;
+}*/
+html {
+	height: 100%;
+}
+@font-face {
+    font-family: 'vegurlight';
+    src: url('vegur-light-webfont.woff2') format('woff2'),
+         url('vegur-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+body{
+	padding: 0;
+	margin: 0;
+	margin-top: 5%;
+	background: linear-gradient(to bottom, #57A7FF, #b700ff) no-repeat;
+	font-family: Helvetica;
+	font-size: 20px;
+}
+.container {
+	background-color: #ffffff;
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 0 0 30px #000;
+	padding-bottom: 20px;
+}
+h1 {
+	font-family: 'vegurlight';
+	text-align: center;
+	/*border: 1px solid black;*/
+	font-weight: normal;
+	font-size: 4.3em;
+	color: #707070;
+	padding-top: 13px;
+}
+
+form {
+	margin-left: 35px;
+	margin-right: 35px;
+}
+a {
+	font-size: 17px;
+	width: 33.5%;
+	text-align: center;
+	display: block;
+	padding: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 13px;
+	text-decoration: none;
+	color: #3C8CE6;
+}
+.field {
+	outline: none;
+	color: #707070;
+	width: 98.3%;
+	font-size: 20px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	padding-left: 3px;
+	padding-right: 3px;
+	background-color: #ffffff;
+	border: 1px solid #D3D3D3;
+	border-radius: 5px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+.field:focus {
+	border-width: 2px;
+	padding-bottom: 9px;
+	padding-top: 9px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+label {
+	
+	color: #707070;
+	
+}
+#submit {
+	font-family: Helvetica;
+	font-size: 1em;
+	text-align: center;
+	margin-bottom: 10px;
+	width: 100%;
+	padding-top: 13px;
+	padding-bottom: 13px;
+	background-color: #57A7FF;
+	border: none;
+	color: white;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#submit:hover{
+	background-color: #6eb9ff;
+}
+a:hover {
+	color: #707070;
+}
+.error {
+	background-color: #ff2424;
+	width: 90%;
+	color: #ffffff;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 0;
+	font-size: 17px;
+	padding-right: 7px;
+	padding-left: 7px;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	border-radius: 7px;
+	/*visibility: hidden;*/
+}
+.container {
+	/*padding-bottom: 13px;*/
+}

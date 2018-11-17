@@ -26,11 +26,6 @@ if($birth_month >= $currnet_month){
 		$age--;
 	}
 }
-/*if($birth_month <= $currnet_month){
-	if($birth_day < $currnet_day){
-		$age--;
-	}
-}*/
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,7 +52,7 @@ if($birth_month >= $currnet_month){
 		<div class="content">
 			<div class="main_block">
 				<div class="ava">	
-					<a><div class="picture">
+					<a href="profile_image.php"><div class="picture">
 						
 					</div></a>
 					<a id="edit">Редактировать</a>
@@ -72,7 +67,7 @@ if($birth_month >= $currnet_month){
 					<span class="toleft">Отн к алкоголю:</span><span class="toright">Не пью</span><br />
 					<span class="toleft last">Мне <?php echo $age;?>, живу с родителями, 181 см, 66 кг, с голубыми глазами.</span>
 				</div>
-				<a id="showmore">Показать больше<?php echo $birth_year;?></a>
+				<a id="showmore">Показать больше</a>
 			</div>
 			<div class="photo_block">
 				<div class="about_photos">
