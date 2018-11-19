@@ -106,7 +106,7 @@ var prevEl = this.previousSibling;
 		two2.onmouseout = unchecked2;
 		three3.onmouseover = checked3;
 		three3.onmouseout = unchecked3;
-var download_img = document.querySelectorAll('input[type="file"]');
+/*var download_img = document.querySelectorAll('input[type="file"]');
 var download_img_bttn = document.querySelectorAll('input[type="submit"]');
 function onelement(){
 	download_img_bttn.setAttribute('style', 'background-color: #6eb9ff;');
@@ -115,4 +115,4 @@ function notonelement(){
 	download_img_bttn.setAttribute('style', 'background-color: #57A7FF;');
 }
 download_img.onmouseover = onelement;
-download_img.onmouseout = notonelement;
+download_img.onmouseout = notonelement;*/
