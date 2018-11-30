@@ -127,7 +127,7 @@ body {
     height: 135px;
     border: 1px solid rgba(112, 112, 112, 0.3);
     float: left;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 .place_for_photo {
     display: block;
@@ -201,7 +201,7 @@ body {
 .picture {
     width: 210px;
     height: 210px;
-    background: url("images/IMG_3446.JPG") no-repeat;
+    /*background: url("images/IMG_3446.JPG") no-repeat;*/
     border-radius: 5px;
 }
 .rightside_fixed {

@@ -3,11 +3,17 @@ session_start();
 include 'setting.php';
 /*В диалогах придётся кое-что изменить. Отправка личных сообщений переедет в setting в виде функции, а формы будут обрабатывать сами себя.*/
 if(isset($_SESSION['id'])){
+$id = $_SESSION['id'];
 $current_year = date("Y");
 $currnet_month = date("n");
 $currnet_day = date("j");
 $birth = $_SESSION['birth'];
 $birth_year = substr($birth, 0, 4);
+$query1 = "SELECT * FROM `images` WHERE sender_id = '$id' AND avatar = 1";
+$result1 = mysqli_query($CONNECT, $query1) or die ('Ошибка при выполнении запроса');
+$row1 = mysqli_fetch_array($result1);
+$img = $row1['image_url'];
+$image_style = 'style="background: url(\'images/'  . $img . '\') no-repeat;"';
 if (substr($birth, 5, 1) == 0){
 	$birth_month = substr($birth, 6, 1);
 }
@@ -52,7 +58,7 @@ if($birth_month >= $currnet_month){
 		<div class="content">
 			<div class="main_block">
 				<div class="ava">	
-					<a href="profile_image.php"><div class="picture">
+					<a href="profile_image.php"><div class="picture" <?php if(!empty($image_style)) echo $image_style;?>>
 						
 					</div></a>
 					<a id="edit">Редактировать</a>

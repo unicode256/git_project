@@ -9,6 +9,15 @@ $id = $_SESSION['id'];
     $result1 = mysqli_query($CONNECT, $query1) or die ('Ошибка соединения с сервером 000');
     $row1 = mysqli_fetch_array($result1);
     $photo = 'style="background: url(\'images/' . $row1['image_url'] . '\') no-repeat;"';
+    $picture = 'images/' . $row1['image_url'];
+    $src_img = imagecreatefrompng($picture);
+    $dest_img = imagecreatetruecolor(500, 500);
+    $width = imagesx($src_img);
+    $height = imagesy($src_img);
+    imagecopy($dest_img, $src_img, 0, 0, 700, 0, $width, $height);
+    $save_path = 'images/croped_images/' . $row1['image_url'];
+    imagepng($dest_img, $save_path);
+    $photo1 = 'style="background: url(\'images/croped_images/' . $row1['image_url'] . '\') no-repeat;"';
 //}
 if(isset($_POST['download_another_img'])){
     if ($_FILES['userfile']['error'] > 0){
@@ -63,7 +72,7 @@ $img_name = $_FILES['userfile']['name'];
             </div>
             <div class="content">
                 <p>Ваша фотография</p>
-                <div class="image" <?php if(!empty($photo)) echo $photo; if($result0 != FALSE && $result != FALSE) echo 'style="background: url(\'images/' . $img_name . '\') no-repeat;"';?>></div>
+                <div class="image" <?php if(!empty($photo1)) echo $photo1; if($result0 != FALSE && $result != FALSE) echo 'style="background: url(\'images/' . $img_name . '\') no-repeat;"';?>></div>
                 <div class="info">
                     <span class="info_str">Альбом: <span>Аватары</span></span>
                     <span class="info_str">Отправитель: <span>Глеб Андреев</span></span>
@@ -72,7 +81,7 @@ $img_name = $_FILES['userfile']['name'];
                 </div>
                 <form class="el" action="profile_image.php" method="post" enctype="multipart/form-data"><div id="download" class="el" ><input name="userfile" type="file"><input type="submit" value="Загрузить новую фотографию"></div><input type="submit" name="download_another_img" value="Отправить фотографию"></form>
                 <form class="el" action="" method="post"><input type="submit" name="delete" value="Удалить фотографию"></form>
-                <a id="original" href="#">Загрузить оригинал</a>
+                <a id="original" href="images/<?php echo $img_name;?>">Загрузить оригинал</a>
                 <?php if(!empty($error_msg)) echo $error_msg;?>
             </div>
             <!--<div class="rightside"></div-->
@@ -83,5 +92,7 @@ $img_name = $_FILES['userfile']['name'];
             </div>
         </div>
         <script src="index.js"></script>
+        <?php imagedestroy($dest_img);
+    imagedestroy($src_img);?>
     </body>
 </html>
