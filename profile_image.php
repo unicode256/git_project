@@ -2,7 +2,14 @@
 include 'setting.php';
 session_start();
 $error_msg = "";
-$no_photo = "";
+$photo = "";
+$id = $_SESSION['id'];
+//if(empty($result) && empty($result1)) {
+    $query1 = "SELECT * FROM `images` WHERE sender_id = '$id' AND avatar = 1";
+    $result1 = mysqli_query($CONNECT, $query1) or die ('Ошибка соединения с сервером 000');
+    $row1 = mysqli_fetch_array($result1);
+    $photo = 'style="background: url(\'images/' . $row1['image_url'] . '\') no-repeat;"';
+//}
 if(isset($_POST['download_another_img'])){
     if ($_FILES['userfile']['error'] > 0){
         switch ($_FILES['userfile']['error']){
@@ -25,7 +32,6 @@ $img_name = $_FILES['userfile']['name'];
     else {
         $error_msg = '<p class="error">Не удалось загрузить изображение</p>';
     }
-    $id = $_SESSION['id'];
     $query0 = "UPDATE `images` SET `avatar` = 0 WHERE `sender_id` = '$id'";
     $query = "INSERT INTO `images` (`image_url`, `avatar`, `date`, `likes`, `sender_id`) VALUES ('$img_name', 1, NOW(), 0, $id)";
     $result0 = mysqli_query($CONNECT, $query0) or die ('Ошибка соединения с сервером 0');
@@ -57,14 +63,14 @@ $img_name = $_FILES['userfile']['name'];
             </div>
             <div class="content">
                 <p>Ваша фотография</p>
-                <div class="image" <?php if($result0 != FALSE && $result != FALSE) echo 'style="background: url("images/' .  $img_name . '") no-repeat;"'; ?>></div>
+                <div class="image" <?php if(!empty($photo)) echo $photo; if($result0 != FALSE && $result != FALSE) echo 'style="background: url(\'images/' . $img_name . '\') no-repeat;"';?>></div>
                 <div class="info">
                     <span class="info_str">Альбом: <span>Аватары</span></span>
                     <span class="info_str">Отправитель: <span>Глеб Андреев</span></span>
                     <span class="info_str">Добавлена: <span>1 августа 2018</span></span>
                     <span class="info_str">Нравится: <span>21</span></span>
                 </div>
-                <form class="el" action="profile_image.php" method="post" enctype="multipart/form-data"><div id="download" class="el" ><input type="file"><input type="submit" value="Загрузить новую фотографию"></div><input type="submit" name="download_another_img" value="Отправить фотографию"></form>
+                <form class="el" action="profile_image.php" method="post" enctype="multipart/form-data"><div id="download" class="el" ><input name="userfile" type="file"><input type="submit" value="Загрузить новую фотографию"></div><input type="submit" name="download_another_img" value="Отправить фотографию"></form>
                 <form class="el" action="" method="post"><input type="submit" name="delete" value="Удалить фотографию"></form>
                 <a id="original" href="#">Загрузить оригинал</a>
                 <?php if(!empty($error_msg)) echo $error_msg;?>
