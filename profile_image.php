@@ -9,13 +9,10 @@ $section = $_POST['section'];
 $id = $_SESSION['id'];
     $query1 = "SELECT * FROM `images` WHERE `avatar` = 1 AND `sender_id` = '$id'";
     $result1 = mysqli_query($CONNECT, $query1) or die ('Ошибка соединения с сервером 000');
-    //if(mysqli_num_rows($result1) == 1){
+    if(mysqli_num_rows($result1) == 1){
         $row1 = mysqli_fetch_array($result1);
-        //if($row1['is_croped_image'] == 1){
             $photo1 = 'style="background: url(\'images/croped_images/croped_' . $row1['image_url'] . '\') no-repeat;"';
-        //}
-        /*if($row1['is_croped_image'] == 0){
-            $picture = 'images/' . $row1['image_url'];
+            /*$picture = 'images/' . $row1['image_url'];
             $ext = pathinfo($picture, PATHINFO_EXTENSION);
             if($ext == 'JPEG' || $ext == 'JPG'){
                 $src_img = imagecreatefromjpeg($picture);
@@ -46,12 +43,11 @@ $id = $_SESSION['id'];
             }
             $photo1 = 'style="background: url(\'images/croped_images/croped_' . $row1['image_url'] . '\') no-repeat;"';
             $query0 = "UPDATE `images` SET `is_croped_image` = 1 WHERE `sender_id` = '$id' AND `avatar` = 1";
-            mysqli_query($CONNECT, $query0) or die ('Ошибка соединения с сервером 777');
-        }*/
-    //}
-    //else {
-    //    $error_msg =  '<p class="error">У Вас нет фотографии</p>';
-    //}
+            mysqli_query($CONNECT, $query0) or die ('Ошибка соединения с сервером 777');*/
+        }
+    else {
+        $error_msg =  '<p class="error">У Вас нет фотографии</p>';
+    }
     if(isset($_POST['download_another_img'])){
     if ($_FILES['userfile']['error'] > 0){
         switch ($_FILES['userfile']['error']){
@@ -65,18 +61,63 @@ $id = $_SESSION['id'];
     if ($_FILES['userfile']['type'] != 'image/png' || $_FILES['userfile']['type'] != 'image/jpg'){
         $error_msg = '<p class="error">Файл не является изображением</p>';
     }
-    $upfile = 'images/' . $_FILES['userfile']['name'];
-    $img_name = $_FILES['userfile']['name'];
+    
     if($_FILES['userfile']['tmp_name']){
+        $upfile = 'images/' . $_FILES['userfile']['name'];
+        $upfile_croped = 'images/croped_images/croped_' . $_FILES['userfile']['name'];
+        $img_name = $_FILES['userfile']['name'];
+        $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+            if($ext == 'JPEG' || $ext == 'JPG'){
+                $src_img = imagecreatefromjpeg($upfile);
+            }
+            if($ext == 'png'){
+                $src_img = imagecreatefrompng($upfile);
+            }
+            $dest_img = imagecreatetruecolor(500, 500);
+            $width = imagesx($src_img);
+            $height = imagesy($src_img);
+            $srcx = "";
+            $srcy = "";
+            if($section == 1){
+                $srcx = 0;
+                $srcy = 0;
+            }
+            if($section == 3){
+                $srcx = $width-500;
+                $srcy = 0;
+            }
+            $end = imagecopyresized($dest_img ,$src_img , 0, 0, $srcx, $srcy, $width, $height, $width, $height);
+            /*if($ext == 'png'){
+                if(!imagepng($dest_img, $save_path)){
+                    $error_msg = '<p class="error">Не удалось загрузить изображение</p>';
+                }
+            }
+            if($ext == 'JPEG' || $ext == 'JPG' || $ext == 'jpg' || $ext == 'jpeg'){
+                if(!imagejpeg($dest_img, $save_path)){
+                    $error_msg = '<p class="error">Не удалось загрузить изображение</p>';
+                }
+            }*/
+            $photo1 = 'style="background: url(\'images/croped_images/croped_' . $row1['image_url'] . '\') no-repeat;"';
+            $query0 = "UPDATE `images` SET `is_croped_image` = 1 WHERE `sender_id` = '$id' AND `avatar` = 1";
+            mysqli_query($CONNECT, $query0) or die ('Ошибка соединения с сервером 777');
         if(!move_uploaded_file($_FILES['userfile']['tmp_name'], $upfile)){
             $error_msg = '<p class="error">Не удалось загрузить изображение</p>';
         }
         else {
+            if(imagepng($dest_img, $upfile_croped) || imagejpeg($dest_img, $upfile_croped)){
             $query0 = "UPDATE `images` SET `avatar` = 0 WHERE `sender_id` = '$id'";
-            $query = "INSERT INTO `images` (image_url, is_croped_image, avatar, date, likes, sender_id) VALUES ('$img_name', 0, 1, NOW(), 0, $id)";
+            $query = "INSERT INTO `images` (image_url, is_croped_image, avatar, date, likes, sender_id) VALUES ('$img_name', 1, 1, NOW(), 0, $id)";
             $result0 = mysqli_query($CONNECT, $query0) or die ('Ошибка соединения с сервером 0');
             $result = mysqli_query($CONNECT, $query) or die ('Ошибка соединения с сервером');
             $error_msg = '<p class="warning">Ваша фотография изменена</p>';
+            imagedestroy($dest_img);
+            imagedestroy($src_img);
+            }
+            else{
+                $error_msg = '<p class="error">Не удалось загрузить изображение</p>';
+                imagedestroy($dest_img);
+                imagedestroy($src_img);
+            }
         }
     }
     else {
@@ -146,9 +187,8 @@ $id = $_SESSION['id'];
         </div>
         <script src="index.js"></script>
         <?php
-        echo 'ссылка: ' . $photo1; 
-        imagedestroy($dest_img);
-        imagedestroy($src_img);
+        echo 'ссылка: ' . $photo1 . '<br />'; 
+        echo 'успех: ' . $end;
         ?>
     </body>
 </html><?php
