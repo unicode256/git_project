@@ -65,6 +65,7 @@ $id = $_SESSION['id'];
     if($_FILES['userfile']['tmp_name']){
         $upfile = 'images/' . $_FILES['userfile']['name'];
         $upfile_croped = 'images/croped_images/croped_' . $_FILES['userfile']['name'];
+        $upfile_ava = 'images/ava_images/ava_' . $_FILES['userfile']['name'];
         $img_name = $_FILES['userfile']['name'];
         $ext = pathinfo($img_name, PATHINFO_EXTENSION);
             if($ext == 'JPEG' || $ext == 'JPG'){
@@ -74,6 +75,7 @@ $id = $_SESSION['id'];
                 $src_img = imagecreatefrompng($upfile);
             }
             $dest_img = imagecreatetruecolor(500, 500);
+            $dest_img_ava = imagecreatetruecolor(210, 210);
             $width = imagesx($src_img);
             $height = imagesy($src_img);
             $srcx = "";
@@ -86,7 +88,8 @@ $id = $_SESSION['id'];
                 $srcx = $width-500;
                 $srcy = 0;
             }
-            $end = imagecopyresized($dest_img ,$src_img , 0, 0, $srcx, $srcy, $width, $height, $width, $height);
+            $end = imagecopyresized($dest_img ,$src_img, 0, 0, $srcx, $srcy, $width, $height, $width, $height);
+            $end1 = imagecopyresized($dest_img_ava, $dest_img, 0, 0, 0, 0, 210, 210, 500, 500);
             /*if($ext == 'png'){
                 if(!imagepng($dest_img, $save_path)){
                     $error_msg = '<p class="error">Не удалось загрузить изображение</p>';
@@ -104,18 +107,20 @@ $id = $_SESSION['id'];
             $error_msg = '<p class="error">Не удалось загрузить изображение</p>';
         }
         else {
-            if(imagepng($dest_img, $upfile_croped) || imagejpeg($dest_img, $upfile_croped)){
+            if((imagepng($dest_img, $upfile_croped) || imagejpeg($dest_img, $upfile_croped)) && (imagepng($dest_img_ava, $upfile_ava) || imagejpeg($dest_img_ava, $upfile_ava))) {
             $query0 = "UPDATE `images` SET `avatar` = 0 WHERE `sender_id` = '$id'";
             $query = "INSERT INTO `images` (image_url, is_croped_image, avatar, date, likes, sender_id) VALUES ('$img_name', 1, 1, NOW(), 0, $id)";
             $result0 = mysqli_query($CONNECT, $query0) or die ('Ошибка соединения с сервером 0');
             $result = mysqli_query($CONNECT, $query) or die ('Ошибка соединения с сервером');
             $error_msg = '<p class="warning">Ваша фотография изменена</p>';
             imagedestroy($dest_img);
+            imagedestroy($dest_img_ava);
             imagedestroy($src_img);
             }
             else{
                 $error_msg = '<p class="error">Не удалось загрузить изображение</p>';
                 imagedestroy($dest_img);
+                imagedestroy($dest_img_ava);
                 imagedestroy($src_img);
             }
         }
@@ -188,7 +193,8 @@ $id = $_SESSION['id'];
         <script src="index.js"></script>
         <?php
         echo 'ссылка: ' . $photo1 . '<br />'; 
-        echo 'успех: ' . $end;
+        echo 'успех: ' . $end . '<br />';
+        echo 'успех1: ' . $end1;
         ?>
     </body>
 </html><?php

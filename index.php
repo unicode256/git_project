@@ -9,11 +9,18 @@ $currnet_month = date("n");
 $currnet_day = date("j");
 $birth = $_SESSION['birth'];
 $birth_year = substr($birth, 0, 4);
+$no_photo = "";
 $query1 = "SELECT * FROM `images` WHERE sender_id = '$id' AND avatar = 1";
 $result1 = mysqli_query($CONNECT, $query1) or die ('Ошибка при выполнении запроса');
-$row1 = mysqli_fetch_array($result1);
-$img = $row1['image_url'];
-$image_style = 'style="background: url(\'images/'  . $img . '\') no-repeat;"';
+if(mysqli_num_rows($result1) == 1){
+	$row1 = mysqli_fetch_array($result1);
+	$img = $row1['image_url'];
+	$image_style = 'style="background: url(\'images/ava_images/ava_'  . $img . '\') no-repeat;"';
+}
+else{
+	$no_photo = '<span class="place_for_photo">Нет фото</span>';
+	$image_style = 'style="border: 1px solid rgba(112, 112, 112, 0.3);"';
+}
 if (substr($birth, 5, 1) == 0){
 	$birth_month = substr($birth, 6, 1);
 }
@@ -59,7 +66,7 @@ if($birth_month >= $currnet_month){
 			<div class="main_block">
 				<div class="ava">	
 					<a href="profile_image.php"><div class="picture" <?php if(!empty($image_style)) echo $image_style;?>>
-						
+						<?php if(!empty($no_photo)) echo $no_photo;?>
 					</div></a>
 					<a id="edit">Редактировать</a>
 				</div>
