@@ -10,7 +10,18 @@ body {
          url('vegur-light-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
+}
+@font-face {
+    font-family: 'IntroCondLightFree';
+    src: url('IntroCondLightFree.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TTDrugs-Thin';
+    src: url('TTDrugs-Thin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 #h1_rightside {
     font-size: 24px;
@@ -29,44 +40,86 @@ body{
     min-width: 1000px;
 	/*font-size: 20px;*/
 }
-
 #leftside {
-    width: 54.6%;
+    width: 60.7%;
     float: left;
     color: #fff;
     /*border: 1px solid black;*/
-    margin-top: 2%;
+    margin-top: 4%;
     padding: 0;
+}
+#logo{
+    padding: 0;
+    width: 100%;
     font-size: 4.1em;
     line-height: 0.8em;
 	font-family: 'vegurlight';
     text-align: center;
     text-shadow: 2px 2px 7px #D3D3D3;
+    /*border: 1px solid black;*/
+    margin-top: 0;
+    margin-bottom: 0;
+}
+h2 {
+    padding: 0;
+    width: 100%;
+    font-size: 3.4em;
+    line-height: 0.8em;
+    font-family: 'TTDrugs-Thin';
+    text-align: center;
+    text-shadow: 2px 2px 7px #D3D3D3;
+    /*border: 1px solid black;*/
+    margin-top: 80px;
+    margin-bottom: 0;
+}
+h3 {
+    padding: 0;
+    width: 100%;
+    font-family: 'TTDrugs-Thin';
+    font-size: 2.5em;
+    text-align: center;
+    text-shadow: 2px 2px 7px #D3D3D3;
+    /*border: 1px solid black;*/
+    margin-top: 85px;
+    margin-bottom: 0;
+}
+#last_h3 {
+    padding: 0;
+    width: 100%;
+    font-family: 'TTDrugs-Thin';
+    font-size: 1.5em;
+    text-align: center;
+    text-shadow: 2px 2px 7px #D3D3D3;
+    /*border: 1px solid black;*/
+    margin-top: 85px;
+    margin-bottom: 0;
 }
 #main_rightside {
     /*border: 1px solid black;*/
-    width: 45%;
-    margin-top: 2%;
+    width: 39%;
+    margin-top: 4%;
     margin-bottom: 5%;
     float: right;
 }
 #rightside {
+    padding-bottom: 30px;
     color: #707070;
     padding-top: 15px;
     display: block;
     width: 450px;
+    /*border: 1px solid black;*/
     background-color: #ffffff;
     box-shadow: 0 0 15px #000;
-    padding-bottom: 10px;
 }
 form {
+    margin: 0;
 	margin-left: 35px;
-	margin-right: 35px;	
+    margin-right: 35px;	
 }
 input {
     color: #707070;
     outline: none;
-    width: 97.7%;
+    width: 100%;
     font-size: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -104,9 +157,9 @@ input:focus {
     color: #ffffff;
     font-size: 1em;
 	text-align: center;
-    margin-bottom: 10px;
     padding-top: 13px;
-	padding-bottom: 13px;
+    padding-bottom: 13px;
+    margin-bottom: 0px;
 	background-color: #57A7FF;
     border: none;
 	border-radius: 5px;
@@ -135,12 +188,13 @@ select {
     width: 20px;
 }
 .error {
+    margin: 0;
 	background-color: #ff2424;
 	width: 90%;
 	color: #ffffff;
-	margin-top: 20px;
+	margin-top: 15px;
 	margin-left: auto;
-	margin-right: auto;
+    margin-right: auto;
 	font-size: 17px;
 	padding-right: 7px;
 	padding-left: 7px;

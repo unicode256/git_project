@@ -46,5 +46,3 @@ $error_msg = 'Вы не ввели код подтверждения';
 	$redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
 	header('Location: ' . $redirect);
   }?>
-
-

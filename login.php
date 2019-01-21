@@ -15,10 +15,10 @@ if(!empty($email) && !empty($password)){
 	$result = mysqli_query($CONNECT, $query) or die ('Ошибка при выполнении запроса');
 	if(mysqli_num_rows($result) == 1){
 		$row = mysqli_fetch_array($result);
-		if($row['auth'] == 0){
+		/*if($row['auth'] == 0){
 		$error_msg = '<p class="error">Ваш профиль не активирован. Пройти активацию можно <a href="submit.php?id=' . $row['id'] . '">здесь</a></p>';
 		$style = 'style="padding-bottom: 1px;"';
-		} else {
+		} else {*/
 		
 		$_SESSION['id'] = $row['id'];
 		$_SESSION['sex'] = $row['sex'];
@@ -28,7 +28,7 @@ if(!empty($email) && !empty($password)){
 		$_SESSION['birth'] = $row['birth'];
 		$redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
 		header('Location: ' . $redirect);
-		}
+		//}
 	}
 	/*if(mysqli_fetch_array($result0) == 1){
 		$error_msg = '<p class="error">Неверный пароль</p>';
@@ -63,7 +63,7 @@ if(empty($_SESSION['id'])){
 			<input class="field" type="password" name="password"></label><br />
 			<input id="submit" name="submit" type="submit" value="Войти"><br />
 		</form>
-		<a href="registration.php">Регистрация</a>
+		<a href="registration1.php">Регистрация</a>
 		<a id="last" href="">Не могу войти</a>
 		<?php echo $error_msg; ?>
 		</div>
