@@ -102,7 +102,7 @@ if(isset($_POST['submit'])){
                 <input type="text" name="name" <?php if(!empty($error_property_name)) echo $error_property_name;?>value="<?php if(!empty($name)) echo $name;?>"></label><br />
                 <label>Напишите Вашу фамилию:<br />
                 <input type="text" name="surname" <?php if(!empty($error_property_surname)) echo $error_property_surname;?>value="<?php if(!empty($surname)) echo $surname;?>"></label><br />
-                <label>И Ваш адрес электронной почты:<br />
+                <label>И адрес Вашей электронной почты:<br />
                 <input type="text" name="email" <?php if(!empty($error_property_email)) echo $error_property_email;?>value="<?php if(!empty($email)) echo $email;?>"></label><br />
                 <label>Теперь придумайте пароль:<br />
                 <input type="password" name="password" <?php if(!empty($error_property_password)) echo $error_property_password;?>value="<?php if(!empty($password)) echo $password;?>"></label><br />
