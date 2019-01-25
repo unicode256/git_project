@@ -58,13 +58,13 @@ input {
     font-family: 'TTDrugs-Thin';
     color: #fff;
     outline: none;
-    width: 30%;
     font-size: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
 	padding-left: 3px;
     padding-right: 3px;
     background-color: rgba(0,0,0,0);
+    /*background-color: #fff;*/
     border: 1px solid #D3D3D3;
     /*border: 1px solid #fff;*/
 	border-radius: 5px;
@@ -148,4 +148,19 @@ select:hover{
 }
 #head1, #head2 {
     margin-top: 15px;
+}
+.error {
+    width: 97.8%;
+    font-family: 'TTDrugs-Thin';
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+	padding-left: 8px;
+    padding-right: 8px;
+    background-color: #96000d;
+    border-radius: 5px;
+    margin-top: 15px;
+    border: 1px solid #96000d;
+    text-align: center;
+    color: #fff;
 }

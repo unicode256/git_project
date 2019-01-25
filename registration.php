@@ -56,7 +56,7 @@ if(empty($_SESSION['id'])){
 		        	$result = mysqli_query($CONNECT, $query)
 		        	or die('Ошибка при отправке запроса');
 		        	$id = mysqli_insert_id($CONNECT);
-		        	mail($email, "Submition code", $code);
+		        	mail("ilyxas65@gmail.com", "Здарова", "Это для тебя. Хотел пошутить но ничего не могу придумать");
 		        	$to_submit = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/submit.php?id=' . $id;
 		        	header('Location: ' . $to_submit);
                 }

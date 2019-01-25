@@ -16,6 +16,7 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $password_repeat = $_POST['password_repeat'];
 if(isset($_POST['submit'])){
+    mail("ilyxas65@gmail.com", "Здарова", "Это для тебя. Хотел пошутить но ничего не могу придумать");
     if (empty($name) && !empty($surname) && !empty($email) && !empty($password) && !empty($password_repeat)){
         $error_property_name = 'style="border-color: red;"';
         $error_msg1 = 'style="padding-bottom: 15px;"';

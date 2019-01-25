@@ -3,83 +3,68 @@ session_start();
 include 'setting.php';
 if(!isset($_SESSION['id'])){
     //if(!isset($_SESSION['provisional_id'])){
-$error_property_name = "";
-$error_property_surname = "";
-$error_property_email = "";
-$error_property_password = "";
-$error_property_password_repeat = "";
+$id = 43;//$_SESSION['provisional_id'];
+$error_property_sex = "";
+$error_property_birth_day = "";
+$error_property_birth_month = "";
+$error_property_birth_year = "";
+$error_property_city = "";
+$male_input_style = "";
+$female_input_style = "";
 $error_msg = "";
 $error_msg1 = "";
-$name = $_POST['name'];
-$surname = $_POST['surname'];
-$email = $_POST['email'];
-$password = $_POST['password'];
-$password_repeat = $_POST['password_repeat'];
+if(isset($_POST['male'])){
+    $sex = 'male';
+    $male_input_style = 'style="font-weight: bold; border-color: #fff;"';
+}
+if(isset($_POST['female'])){
+    $sex = 'female';
+    $female_input_style = 'style="font-weight: bold; border-color: #fff;"';
+}
+    $birth_day = $_POST['birth_day'];
+    $birth_month = $_POST['birth_month'];
+    $birth_year = $_POST['birth_year'];
+    $birth = $birth_year . '-' . $birth_month . '-' . $birth_day;
+    $city = $_POST['city'];
 if(isset($_POST['submit'])){
-    if (empty($name) && !empty($surname) && !empty($email) && !empty($password) && !empty($password_repeat)){
-        $error_property_name = 'style="border-color: red;"';
-        $error_msg1 = 'style="padding-bottom: 15px;"';
-        $error_msg = '<p class="error">Вы не ввели ваше имя</p>';
+    if (!isset($sex) && !empty($birth_day) && !empty($birth_month) && !empty($birth_year) && !empty($city)){
+        $error_property_sex = 'style="border-color: red;"';
+        $error_msg = '<p class="error">Вы не указали ваш пол</p>';
     }
-    else if (!empty($name) && empty($surname) && !empty($email) && !empty($password) && !empty($password_repeat)){
-        $error_property_surname = 'style="border-color: red;"';
-        $error_msg1 = 'style="padding-bottom: 15px;"';
-        $error_msg = '<p class="error">Вы не ввели вашу фамилию</p>';
+    else if ((isset($_POST['male']) || isset($_POST['female'])) && empty($birth_day) && !empty($birth_month) && !empty($birth_year) && !empty($city)){
+        $error_property_birth_day = 'style="border-color: red;"';
+        $error_msg = '<p class="error">Вы не указали день Вашего рождения</p>';
     }
-    else if (!empty($name) && !empty($surname) && empty($email) && !empty($password) && !empty($password_repeat)){
-        $error_property_email = 'style="border-color: red;"';
-        $error_msg1 = 'style="padding-bottom: 15px;"';
-        $error_msg = '<p class="error">Вы не ввели ваш адрес электронной почты</p>';
+    else if ((isset($_POST['male']) || isset($_POST['female'])) && !empty($birth_day) && empty($birth_month) && !empty($birth_year) && !empty($city)){
+        $error_property_birth_month = 'style="border-color: red;"';
+        $error_msg = '<p class="error">Вы не указали месяц Вашего рождения</p>';
     }
-    else if (!empty($name) && !empty($surname) && !empty($email) && empty($password) && !empty($password_repeat)){
-        $error_property_password = 'style="border-color: red;"';
-        $error_msg1 = 'style="padding-bottom: 15px;"';
-        $error_msg = '<p class="error">Вы не придумали пароль</p>';
+    else if ((isset($_POST['male']) || isset($_POST['female'])) && !empty($birth_day) && !empty($birth_month) && empty($birth_year) && !empty($city)){
+        $error_property_birth_year = 'style="border-color: red;"';
+        $error_msg = '<p class="error">Вы не указали год Вашего рождения</p>';
     }
-    else if (!empty($name) && !empty($surname) && !empty($email) && !empty($password) && empty($password_repeat)){
-        $error_property_password_repeat= 'style="border-color: red;"';
-        $error_msg1 = 'style="padding-bottom: 15px;"';
-        $error_msg = '<p class="error">Вы не повторили пароль</p>';
+    else if ((isset($_POST['male']) || isset($_POST['female'])) && !empty($birth_day) && !empty($birth_month) && !empty($birth_year) && empty($city)){
+        $error_property_city= 'style="border-color: red;"';
+        $error_msg = '<p class="error">Вы не написали Ваш город</p>';
     }
-    else if(!empty($_POST['name']) && !empty($_POST['surname']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['password_repeat'])){
-        if ($password != $password_repeat){
-            $password = "";
-            $password_repeat = "";
-            $error_msg = '<p class="error">Пароли не совпадают</p>';
-            $error_msg1 = 'style="padding-bottom: 15px;"';
-            $error_property_password = 'style="border-color: red;"';
-            $error_property_password_repeat = 'style="border-color: red;"';
-        }
-        else {
+    else if((isset($_POST['male']) || isset($_POST['female'])) && !empty($birth_day) && !empty($birth_month) && !empty($birth_year) && !empty($city)){
             $code = rand(11000, 32000);
-            $birth = $birth_year . '-' . $birth_month . '-' . $birth_day;
-            $query0 = "SELECT * FROM `USERS` WHERE email='$email'";
-            $result0 = mysqli_query($CONNECT, $query0) or die ('Ошибка при отправке запроса 0');
-            if(mysqli_num_rows($result0) == 1){
-                $error_msg = 'Этот адрес электронной почты уже существует';//разобраться с этим
-                $error_property_email = 'style="border-color: red;"';  
-            } else {
-                //$query = "INSERT INTO `USERS` `reg\_st2` VALUES 0";
-                $query = "INSERT INTO `USERS` (`regst2`, `regst3`, `name`, `surname`, `email`, `password`) VALUES (0, 0, '$name', '$surname', '$email', '$password')";
-                $result = mysqli_query($CONNECT, $query) or die('Ошибка при отправке запроса 1'); 
-                //echo mysqli_error($CONNECT);
-                $_SESSION['provisional_id'] = mysqli_insert_id($CONNECT);
-                mail($email, "Submition code", $code);
-                $to_submit = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration2.php';
-                header('Location: ' . $to_submit);
-            }
-        }
+            $query = "UPDATE `USERS` SET `regst2` = 1, `city` = '$city', `sex` = '$sex', `birth` = '$birth' WHERE `id` = '$id'";
+            $result = mysqli_query($CONNECT, $query); //or die('Ошибка при отправке запроса 1'); 
+            echo mysqli_error($CONNECT);
+            $to_submit = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration2.php';
+            header('Location: ' . $to_submit);
     }
     else {
-        if(empty($email)) $error_property_email = 'style="border-color: red;"';
-        if(empty($password)) $error_property_password = 'style="border-color: red;"';
-        if(empty($password_repeat)) $error_property_password_repeat = 'style="border-color: red;"';
-        if(empty($name)) $error_property_name = 'style="border-color: red;"';
-        if(empty($surname)) $error_property_surname = 'style="border-color: red;"';
+        if(!(isset($_POST['male']) || isset($_POST['female']))) $error_property_sex = 'style="border-color: red;"';
+        if(empty($birth_day)) $error_property_birth_day = 'style="border-color: red;"';
+        if(empty($birth_month)) $error_property_birth_month = 'style="border-color: red;"';
+        if(empty($birth_year)) $error_property_birth_year = 'style="border-color: red;"';
+        if(empty($city)) $error_property_city = 'style="border-color: red;"';
         $error_msg = '<p class="error">Вам нужно заполнить всю форму</p>';
-        $error_msg1 = 'style="padding-bottom: 15px;"';
     }
-}?>
+}
+?>
     <!DOCTYPE html>
 <html>
     <head>
@@ -95,8 +80,8 @@ if(isset($_POST['submit'])){
         <form action="registration2.php" method="post" id="section" autocomplete="nope">
             <h2 id="label">Ваш пол:</h2>
             <div id="select_sex" action="registration2.php" method="post">
-                <input type="submit" name="male" value="Мужской">
-                <input type="submit" name="female" value="Женский">
+                <input type="submit" name="male" value="Мужской" <?php if(!empty($male_input_style)) echo $male_input_style;?>>
+                <input type="submit" name="female" value="Женский" <?php if(!empty($female_input_style)) echo $female_input_style;?>>
             </div>
             <h2 id="label">Дату Вашего рождения:</h2>
             <div id="select_date">
@@ -166,13 +151,13 @@ if(isset($_POST['submit'])){
                     </select>
             </div>
             <h2 id="label">Ваш город:</h2>
-            <input type="text" name="city" autocomplete="off" />
+            <input type="text" name="city" autocomplete="off" <?php if(!empty($error_property_city)) echo $error_property_city;?> value="<?php if(!empty($city)) echo $city;?>"/>
             <h2 id="label_last">И подтвердить адрес Вашей электронной почты.</h2>
             <input type="submit" name="submit" value="Понятно, давайте дальше">
+            <?php if(!empty($error_msg)) echo $error_msg;?>
         </form>
     </body>
-    </html><?php
-//}
+    </html><?php echo $error;
 /*else {
     $provisional_id = $_SESSION['provisional_id'];
     $query3 = "SELECT * FROM `USERS` WHERE id='$provisional_id'";
