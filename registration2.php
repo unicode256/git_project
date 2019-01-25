@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'setting.php';
-if(!isset($_SESSION['id'])){
+if(!isset($_SESSION['id'])){//
     //if(!isset($_SESSION['provisional_id'])){
 $id = 43;//$_SESSION['provisional_id'];
 $error_property_sex = "";
