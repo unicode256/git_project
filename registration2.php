@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'setting.php';
-if(!isset($_SESSION['id'])){//
+if(!isset($_SESSION['id'])){
     //if(!isset($_SESSION['provisional_id'])){
 $id = 43;//$_SESSION['provisional_id'];
 $error_property_sex = "";
@@ -28,23 +28,23 @@ if(isset($_POST['female'])){
     $city = $_POST['city'];
 if(isset($_POST['submit'])){
     if (!isset($sex) && !empty($birth_day) && !empty($birth_month) && !empty($birth_year) && !empty($city)){
-        $error_property_sex = 'style="border-color: red;"';
+        $error_property_sex = 'style="border-color: #96000d;"';
         $error_msg = '<p class="error">Вы не указали ваш пол</p>';
     }
     else if ((isset($_POST['male']) || isset($_POST['female'])) && empty($birth_day) && !empty($birth_month) && !empty($birth_year) && !empty($city)){
-        $error_property_birth_day = 'style="border-color: red;"';
+        $error_property_birth_day = 'style="border-color: #96000d;"';
         $error_msg = '<p class="error">Вы не указали день Вашего рождения</p>';
     }
     else if ((isset($_POST['male']) || isset($_POST['female'])) && !empty($birth_day) && empty($birth_month) && !empty($birth_year) && !empty($city)){
-        $error_property_birth_month = 'style="border-color: red;"';
+        $error_property_birth_month = 'style="border-color: #96000d;"';
         $error_msg = '<p class="error">Вы не указали месяц Вашего рождения</p>';
     }
     else if ((isset($_POST['male']) || isset($_POST['female'])) && !empty($birth_day) && !empty($birth_month) && empty($birth_year) && !empty($city)){
-        $error_property_birth_year = 'style="border-color: red;"';
+        $error_property_birth_year = 'style="border-color: #96000d;"';
         $error_msg = '<p class="error">Вы не указали год Вашего рождения</p>';
     }
     else if ((isset($_POST['male']) || isset($_POST['female'])) && !empty($birth_day) && !empty($birth_month) && !empty($birth_year) && empty($city)){
-        $error_property_city= 'style="border-color: red;"';
+        $error_property_city= 'style="background-color: rgba(143, 0, 0, 1);"';
         $error_msg = '<p class="error">Вы не написали Ваш город</p>';
     }
     else if((isset($_POST['male']) || isset($_POST['female'])) && !empty($birth_day) && !empty($birth_month) && !empty($birth_year) && !empty($city)){
@@ -56,11 +56,11 @@ if(isset($_POST['submit'])){
             header('Location: ' . $to_submit);
     }
     else {
-        if(!(isset($_POST['male']) || isset($_POST['female']))) $error_property_sex = 'style="border-color: red;"';
-        if(empty($birth_day)) $error_property_birth_day = 'style="border-color: red;"';
-        if(empty($birth_month)) $error_property_birth_month = 'style="border-color: red;"';
-        if(empty($birth_year)) $error_property_birth_year = 'style="border-color: red;"';
-        if(empty($city)) $error_property_city = 'style="border-color: red;"';
+        if(!(isset($_POST['male']) || isset($_POST['female']))) $error_property_sex = 'style="border-color: #96000d;"';
+        if(empty($birth_day)) $error_property_birth_day = 'style="border-color: #96000d;"';
+        if(empty($birth_month)) $error_property_birth_month = 'style="border-color: #96000d;"';
+        if(empty($birth_year)) $error_property_birth_year = 'style="border-color: #96000d;"';
+        if(empty($city)) $error_property_city = 'style="background-color: rgba(255, 54, 54, 0.4);"';
         $error_msg = '<p class="error">Вам нужно заполнить всю форму</p>';
     }
 }
@@ -71,7 +71,7 @@ if(isset($_POST['submit'])){
         <title>Регистарция</title>
         <meta charset="UTF-8">
 		<meta http-equiv="Cache-Control" content="private">
-		<link href="registration2.css" type="text/css" rel="stylesheet">
+		<link href="registration2-style.css" type="text/css" rel="stylesheet">
     </head>
     <body>
         <h1 id="logo">HY TAKOE</h1>

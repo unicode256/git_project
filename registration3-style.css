@@ -1,0 +1,87 @@
+@font-face {
+    font-family: 'vegurlight';
+    src: url('vegur-light-webfont.woff2') format('woff2'),
+         url('vegur-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TTDrugs-Thin';
+    src: url('TTDrugs-Thin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+h1, h2, form, input {
+    margin: 0;
+    /*border: 1px solid black;*/
+}
+html {
+    min-height: 100%;
+}
+body{
+	padding: 0;
+    margin: 0;
+    height: 100%;
+    font-family: Helvetica;
+    font-family: 'TTDrugs-Thin';
+	/*background-color: #91c5eb;*/
+    background: linear-gradient(to bottom, #57A7FF, #b700ff) no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-size: 20px;
+    text-shadow: 2px 2px 7px #D3D3D3;
+    min-width: 1000px;
+    text-align: center;
+    color: #fff;
+}
+div {
+    width: 796px;
+    margin-top: 3%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#logo {
+    color: #fff;
+    padding: 0;
+    width: 100%;
+    font-size: 4.2em;
+    line-height: 0.8em;
+	font-family: 'vegurlight';
+    text-align: center;
+    text-shadow: 2px 2px 7px #D3D3D3;
+    /*border: 1px solid black;*/
+    margin-bottom: 0;
+}
+input {
+    outline: none;
+    font-size: 25px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    width: 100%;
+    background-color: #54aceb;
+    border: 1px solid #54aceb;
+    font-family: 'TTDrugs-Thin';
+    color: #fff;
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
+input:hover {
+    background-color: #6db5e8;
+    border: 1px solid #6db5e8;
+    cursor: pointer;
+}
+.margin {
+    margin-top: 70px;
+}
+h2 {
+    margin-top: 20px;
+}
+form {
+    margin-top: 100px;
+}
+#line {
+    padding-bottom: 30px;
+    border-bottom: 1px solid #D3D3D3;
+}
