@@ -13,6 +13,52 @@ $male_input_style = "";
 $female_input_style = "";
 $error_msg = "";
 $error_msg1 = "";
+$headers = 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+$to = 'alisa.andreeva3301@gmail.com';
+$subject = 'Письмо для подтверждения';
+$message = '
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Регистарция</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="Cache-Control" content="private">
+        <style>
+        @font-face {
+            font-family: \'vegurlight\';
+            src: url(\'vegur-light-webfont.woff2\') format(\'woff2\'),
+                 url(\'vegur-light-webfont.woff\') format(\'woff\');
+            font-weight: normal;
+            font-style: normal;
+        }
+            body, h1, p {
+                border: 1px solid black;
+                padding: 0;
+                margin: 0;
+            }
+            h1, p {
+                font-family: \'Helvetica\';
+                width: 600px;
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            p {
+                font-weight: normal;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="font-family: \'vegurlight\'">HY TAKOE</h1>
+        <p style="text-align: center;">Письмо для подтверждения регистрации</p>
+        <p>Подтвердите, что вы получили это письмо, и Вы сможете войти в свой аккаунт.</p>
+        <p><a href="google.com">Подтвердить</a></p>
+        <p style="text-align: left;">Также ознакомьтесь, пожалуйста, с <a href="">правилами</a> работы нашего сайта.</p>
+    </body>
+    </html>
+';
+mail($to, $subject, $message, $headers);
 if(isset($_POST['male'])){
     $sex = 'male';
     $male_input_style = 'style="font-weight: bold; border-color: #fff;"';
