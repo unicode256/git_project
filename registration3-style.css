@@ -11,7 +11,7 @@
     font-weight: normal;
     font-style: normal;
 }
-h1, h2, form, input {
+h1, h2, form, input, div {
     margin: 0;
     /*border: 1px solid black;*/
 }
@@ -83,4 +83,16 @@ form {
 #line {
     padding-bottom: 30px;
     border-bottom: 1px solid #D3D3D3;
+}
+.error {
+    font-size: 25px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    width: 100%;
+    background-color: rgba(217, 54, 54, 0.6);
+    border: 1px solid rgba(217, 54, 54, 0.6);
+    font-family: 'TTDrugs-Thin';
+    color: #fff;
+    border-radius: 7px;
+    margin-top: 0;
 }

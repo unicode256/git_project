@@ -2,7 +2,7 @@
 include 'setting.php';
 session_start();
 //session_destroy();
-$_SESSION['provisional_id'] = 43;
+$_SESSION['provisional_id'] = 45;
 date_default_timezone_set('UTC');
 $male_input_style = "";
 $female_input_style = "";
@@ -19,6 +19,7 @@ if(isset($_SESSION['sex'])){
 if(!isset($_SESSION['id'])){
     if(isset($_SESSION['provisional_id'])){
 $id = $_SESSION['provisional_id'];
+echo $id;
 $error_property_sex = "";
 $error_birth_day = "";
 $error_birth_month = "";
@@ -305,25 +306,10 @@ else {
     </body>
     </html><?php echo $error;
     }
-/*else {
-    $provisional_id = $_SESSION['provisional_id'];
-    $query3 = "SELECT * FROM `USERS` WHERE id='$provisional_id'";
-    $result3 = mysqli_query($CONNECT, $query3);
-    $row3 = mysqli_fetch_array($result3);
-    if($row3['reg_st2'] == 0 && $row3['reg_st_3'] == 0){
-        $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration2.php';
-        header('Location: ' . $redirect);
-    }
-    if($row3['reg_st2'] == 1 && $row3['reg_st_3'] == 0){
-        $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration3.php';
-        header('Location: ' . $redirect);
-    }
-    if($row3['reg_st2'] == 1 && $row3['reg_st_3'] == 1){
-        $_SESSION['id'] = $provisional_id;
-        $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
-        header('Location: ' . $redirect);
-    }
-}*/
+else {
+    $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
+	header('Location: ' . $redirect);
+}
 }
 else {
     $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';

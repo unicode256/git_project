@@ -1,8 +1,8 @@
 <?php
 
 $attach = array(
-    'imgs/1.png',
-    'imgs/2.png'
+    'images/logo.png',
+    'images/confirm.png'
 );
 // чтобы отображалась картинка и ее не было в аттаче
 // путь к картинке задается через CID: - Content-ID

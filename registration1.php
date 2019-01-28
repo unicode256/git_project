@@ -2,7 +2,7 @@
 session_start();
 include 'setting.php';
 if(!isset($_SESSION['id'])){
-    if(!isset($_SESSION['provisional_id'])){
+    //if(!isset($_SESSION['provisional_id'])){
 $error_property_name = "";
 $error_property_surname = "";
 $error_property_email = "";
@@ -115,7 +115,7 @@ if(isset($_POST['submit'])){
     
 	</body>
     </html><?php
-}
+}/*
 else {
     $provisional_id = $_SESSION['provisional_id'];
     $query3 = "SELECT * FROM `USERS` WHERE id='$provisional_id'";
@@ -135,7 +135,7 @@ else {
         header('Location: ' . $redirect);
     }
 }
-}
+}*/
 else {
     $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
 	header('Location: ' . $redirect);

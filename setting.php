@@ -2,7 +2,7 @@
 ob_start();
 define('HOST', 'localhost');
 define('USER', 'root');
-define('PASS', '12042001');
+define('PASS', '12042001data');
 define('DB', 'USERS');
 
 $CONNECT = mysqli_connect(HOST, USER, PASS, DB) or die ('Ошибка соединения с сервером');
