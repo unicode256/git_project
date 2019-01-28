@@ -1,15 +1,5 @@
 <?php
 session_start();
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
-include 'setting.php';
-require 'PHPMailer.php';
-require 'SMTP.php';
-require 'Exception.php';
-//echo !extension_loaded('openssl')?"Not Available":"Available";
-//echo '<br />';
-//require 'phpmailer/SMTP.php';
 if(!isset($_SESSION['id'])){
     //if(!isset($_SESSION['provisional_id'])){
 $id = 43;//$_SESSION['provisional_id'];
@@ -22,69 +12,75 @@ $male_input_style = "";
 $female_input_style = "";
 $error_msg = "";
 $error_msg1 = "";
-$filename = 'images/logo.png';
-$from = 'no-reply@nytakoe.com';
-$to = 'alisa.andreeva3301@gmail.com';
-$subject = 'Письмо для подтверждения регистрации';
-$headers = 'MIME-Version: 1.0' . "\r\n";
-$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-$headers .= 'Content-type: multipart/alternative' . "\r\n";
-$headers .= 'Content-type: image/png; name="logo.png"' . "\r\n";
-$headers .= 'Content-Type: text/plain;'  . "\r\n";
-$headers .= 'Content-Transfer-Encoding: 7bit' . "\r\n";
-//$headers .= 'Content-Type: multipart/related;'  . "\r\n";
-//$headers .= 'Content-Transfer-Encoding: 7bit' . "\r\n";
 
-$to = 'alisa.andreeva3301@gmail.com';
-
-$message = '
+//---------- секция, где написаны инструкции, которые необходимы для корректной отправки письма с подтверждением
+$attach = array(
+    'imgs/1.png',
+    'imgs/2.png'
+);
+$text = '
 <html>
-    <head>
-        <title>Регистарция</title>
-        <meta charset="UTF-8">
-        <meta http-equiv="Cache-Control" content="private">
-        <style>
-            body, h1, p {
-                /*border: 1px solid black;*/
-                padding: 0;
-                margin: 0;
-            }
-            p {
-                font-family: \'Helvetica\';
-                width: 600px;
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                font-weight: normal;
-                margin-top: 20px;
-                /*border: 1px solid black;*/
-            }
-            a {
-                text-decoration: none;
-            }
-            
-        </style>
-    </head>
     <body>
-        <h1 style="width: 600px; margin-left: auto; margin-right: auto;"><img src="localhost/project/images/logo.png"></h1>
-        <p>Подтвердите, что вы получили это письмо, и Вы сможете войти в свой аккаунт.</p>
-        <p><a href="google.com"><img src="confirm.png"></a></p>
-        <p style="text-align: center;">Также рекомендуем Вам ознакомиться с <a href="">правилами</a> работы нашего сайта.</p>
+        <p style="width: 600px; margin-left: auto; margin-right: auto;"><img src="cid:1.png"></p>
+        <p style="color: #000; font-family: \'Helvetica\'; font-size: 15px; width: 600px; text-align: center; margin-top: 20px; margin-left: auto; margin-right: auto;">
+        Подтвердите, что вы получили это письмо – и Вы сможете войти в свой аккаунт.</p>
+        <p style="font-family: \'Helvetica\'; width: 600px; margin-left: auto; margin-right: auto; margin-top: 20px;"><a href="google.com"><img src="cid:2.png"></a></p>
+        <p style="font-family: \'Helvetica\'; color: #000; width: 600px; text-align: center; font-size: 15px; margin-top: 20px; margin-left: auto; margin-right: auto;">Также, рекомендуем Вам ознакомиться с 
+        <a href="google.com" style="color: #57A7FF; text-decoration: none;">правилами</a> работы нашего сайта.</p>
     </body>
     </html>
 ';
-$mimeType = 'image/png';
-$fileContent = file_get_contents($filename, true);
-$filename = basename($filename);
-echo 'cid = ' . $filename;
-$headers .= 'Content-ID: <logo.png>' . "\r\n";
-$headers .= 'Content-type: ' . $mimeType . ';' . "\r\n";
-$headers .= 'Content-Disposition: inline; filename="logo.png"' . "\r\n";
-$headers .= 'Content-Transfer-Encoding: base64' . "\r\n";
-$message .= chunk_split(base64_encode($fileContent));
-echo chunk_split(base64_encode($fileContent));
-$result = mail($to, $subject, $message, $headers);
-var_dump($result);
+$from = "confirmation@nytakoe.com";
+$to = "alisa.andreeva3301@gmail.com";
+$subject = "Письмо для подтверждения регистрации";
+  
+$headers = "From: $from\r\n";
+$headers .= "Subject: $subject\r\n";
+$headers .= "Date: " . date("r") . "\r\n";
+$headers .= "X-Mailer: zm php script\r\n";
+$headers .= "MIME-Version: 1.0\r\n";
+$headers .="Content-Type: multipart/alternative;\r\n";
+$baseboundary = "------------" . md5(microtime());
+$headers .= "  boundary=\"$baseboundary\"\r\n";
+
+$message  =  "--$baseboundary\r\n";
+$message .= "Content-Type: text/plain;\r\n";
+$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+$message .= "--$baseboundary\r\n";
+
+$newboundary = "------------" . md5(microtime());
+$message .= "Content-Type: multipart/related;\r\n";
+$message .= "  boundary=\"$newboundary\"\r\n\r\n\r\n";
+$message .= "--$newboundary\r\n";
+$message .= "Content-Type: text/html; ".
+"charset=utf-8\r\n";
+$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+$message .= $text . "\r\n\r\n";
+  
+foreach($attach as $filename){
+    $mimeType='image/png';
+    $fileContent = file_get_contents($filename,true);
+    $filename = basename($filename);
+    $message.="--$newboundary\r\n";
+    $message.="Content-Type: $mimeType;\r\n";
+    $message.=" name=\"$filename\"\r\n";
+    $message.="Content-Transfer-Encoding: base64\r\n";
+    $message.="Content-ID: <$filename>\r\n";
+    $message.="Content-Disposition: inline;\r\n";
+    $message.=" filename=\"$filename\"\r\n\r\n";
+    $message.=chunk_split(base64_encode($fileContent));
+}  
+
+$message.="--$newboundary--\r\n\r\n";
+$message.="--$baseboundary--\r\n";
+  
+$result = mail($to, $subject, $message , $headers);
+if($result){
+    echo "Письмо успешно отправлено!";
+}else{
+    echo "Письмо не отправлено!";
+}
+//---------- конец этой секции
 if(isset($_POST['male'])){
     $sex = 'male';
     $male_input_style = 'style="font-weight: bold; border-color: #fff;"';
