@@ -79,7 +79,7 @@ input[name="male"]:hover, input[name="female"]:hover{
     border-color: #fff;
 }
 input[name="city"]{
-    width: 98.8%;
+    width: 100%;
 }
 input[name="city"]:hover{
     border: 2px solid #fff;

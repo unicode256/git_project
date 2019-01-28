@@ -2,7 +2,7 @@
 session_start();
 include 'setting.php';
 if(!isset($_SESSION['id'])){
-    //if(!isset($_SESSION['provisional_id'])){
+    if(!isset($_SESSION['provisional_id'])){
 $error_property_name = "";
 $error_property_surname = "";
 $error_property_email = "";
@@ -51,12 +51,11 @@ if(isset($_POST['submit'])){
             $error_property_password_repeat = 'style="border-color: red;"';
         }
         else {
-            $code = rand(11000, 32000);
             $birth = $birth_year . '-' . $birth_month . '-' . $birth_day;
             $query0 = "SELECT * FROM `USERS` WHERE email='$email'";
             $result0 = mysqli_query($CONNECT, $query0) or die ('Ошибка при отправке запроса 0');
             if(mysqli_num_rows($result0) == 1){
-                $error_msg = 'Этот адрес электронной почты уже существует';//разобраться с этим
+                $error_msg = '<p class="error">Этот адрес электронной почты уже существует</p>';
                 $error_property_email = 'style="border-color: red;"';  
             } else {
                 //$query = "INSERT INTO `USERS` `reg\_st2` VALUES 0";
@@ -64,7 +63,7 @@ if(isset($_POST['submit'])){
                 $result = mysqli_query($CONNECT, $query) or die('Ошибка при отправке запроса 1'); 
                 //echo mysqli_error($CONNECT);
                 $_SESSION['provisional_id'] = mysqli_insert_id($CONNECT);
-                mail($email, "Submition code", $code);
+                $_SESSION['email'] = $email;
                 $to_submit = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration2.php';
                 header('Location: ' . $to_submit);
             }
@@ -116,8 +115,8 @@ if(isset($_POST['submit'])){
     
 	</body>
     </html><?php
-//}
-/*else {
+}
+else {
     $provisional_id = $_SESSION['provisional_id'];
     $query3 = "SELECT * FROM `USERS` WHERE id='$provisional_id'";
     $result3 = mysqli_query($CONNECT, $query3);
@@ -135,7 +134,7 @@ if(isset($_POST['submit'])){
         $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
         header('Location: ' . $redirect);
     }
-}*/
+}
 }
 else {
     $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
