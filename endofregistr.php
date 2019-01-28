@@ -10,7 +10,7 @@ if(!isset($_SESSION['id'])){
         $query = "SELECT * FROM `USERS` WHERE `email` = '$email' AND `uniq_code` = '$code'";
         $result = mysqli_query($CONNECT, $query);
         if(mysqli_num_rows($result) == 1){
-            $query1 = "UPDATE `USERS` SET `regst3` = 1 WHERE `email` = '$email' AND `code` = '$code'";
+            $query1 = "UPDATE `USERS` SET `regst3` = 1 WHERE `email` = '$email' AND `uniq_code` = '$code'";
             mysqli_query($CONNECT, $query1);
             $row = mysqli_fetch_array($result);
             $name = $row['name'];
