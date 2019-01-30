@@ -62,7 +62,7 @@ if(empty($_SESSION['id'])){
 			<label>Пароль:<br />
 			<input class="field" type="password" name="password"></label><br />
 			<input id="submit" name="submit" type="submit" value="Войти"><br />
-		</form>
+	</form>
 		<a href="registration1.php">Регистрация</a>
 		<a id="last" href="">Не могу войти</a>
 		<?php echo $error_msg; ?>

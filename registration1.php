@@ -2,7 +2,18 @@
 session_start();
 include 'setting.php';
 if(!isset($_SESSION['id'])){
-    //if(!isset($_SESSION['provisional_id'])){
+    
+    if((!isset($_SESSION['provisional_id']) && isset($_SESSION['id_reg_again'])) || !isset($_SESSION['provisional_id'])){
+    if(!empty($_SESSION['id_reg_again'])){
+    $id = $_SESSION['id_reg_again'];
+    
+    $query0 = "SELECT * FROM `USERS` WHERE `id` = '$id'";
+    $result0 = mysqli_query($CONNECT, $query0);
+    $row0 = mysqli_fetch_array($result0);
+    $name = $row0['name'];
+    $surname = $row0['surname'];
+    $email = $row0['email'];
+}
 $error_property_name = "";
 $error_property_surname = "";
 $error_property_email = "";
@@ -10,9 +21,16 @@ $error_property_password = "";
 $error_property_password_repeat = "";
 $error_msg = "";
 $error_msg1 = "";
-$name = $_POST['name'];
-$surname = $_POST['surname'];
-$email = $_POST['email'];
+if(!empty($_POST['name'])){
+    $name = $_POST['name'];
+}
+if(!empty($_POST['surname'])){
+    $surname = $_POST['surname'];
+}
+if(!empty($_POST['email'])){
+    $email = $_POST['email'];
+}
+
 $password = $_POST['password'];
 $password_repeat = $_POST['password_repeat'];
 if(isset($_POST['submit'])){
@@ -54,18 +72,35 @@ if(isset($_POST['submit'])){
             $birth = $birth_year . '-' . $birth_month . '-' . $birth_day;
             $query0 = "SELECT * FROM `USERS` WHERE email='$email'";
             $result0 = mysqli_query($CONNECT, $query0) or die ('Ошибка при отправке запроса 0');
-            if(mysqli_num_rows($result0) == 1){
+            if(mysqli_num_rows($result0) == 1 && !isset($id)){
                 $error_msg = '<p class="error">Этот адрес электронной почты уже существует</p>';
                 $error_property_email = 'style="border-color: red;"';  
-            } else {
-                //$query = "INSERT INTO `USERS` `reg\_st2` VALUES 0";
-                $query = "INSERT INTO `USERS` (`regst2`, `regst3`, `name`, `surname`, `email`, `password`) VALUES (0, 0, '$name', '$surname', '$email', '$password')";
+            }
+            if(!preg_match("#^([-a-z0-9!$%&'*+/=?^_`{|}~]+(?:\.[-a-z0-9!$%&'*+/=?^_`{|}~]+)*@(?:[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)+(?:aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ru|com|by))$#", $email)){
+                $error_property_email = 'style="border-color: red;"';
+                $error_msg1 = 'style="padding-bottom: 15px;"';
+                $error_msg = '<p class="error">Некорректный адрес электронной почты</p>';
+            } 
+            else {
+                if(isset($id)){
+                    $query = "UPDATE `USERS` SET `name` = '$name', `surname` = '$surname', `email` = '$email', `password` = '$password' WHERE `id` = '$id'";
+                    $result = mysqli_query($CONNECT, $query);
+                    echo mysqli_error($CONNECT);
+                    //$_SESSION['provisional_id'] = $id;
+                    //$_SESSION['id_reg_again'] = "";
+                    //$_SESSION['email'] = $email;
+                    //$to_submit = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration2.php';
+                    //header('Location: ' . $to_submit);
+                }
+                else {
+                $query = "INSERT INTO `USERS` (`regst2`, `regst3`, `date_of_registr`, `name`, `surname`, `email`, `password`) VALUES (0, 0, NOW(), '$name', '$surname', '$email', '$password')";
                 $result = mysqli_query($CONNECT, $query) or die('Ошибка при отправке запроса 1'); 
                 //echo mysqli_error($CONNECT);
-                $_SESSION['provisional_id'] = mysqli_insert_id($CONNECT);
+                //$_SESSION['provisional_id'] = mysqli_insert_id($CONNECT);
                 $_SESSION['email'] = $email;
-                $to_submit = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration2.php';
-                header('Location: ' . $to_submit);
+                //$to_submit = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration2.php';
+                //header('Location: ' . $to_submit);
+                }
             }
         }
     }
@@ -115,7 +150,7 @@ if(isset($_POST['submit'])){
     
 	</body>
     </html><?php
-}/*
+}
 else {
     $provisional_id = $_SESSION['provisional_id'];
     $query3 = "SELECT * FROM `USERS` WHERE id='$provisional_id'";
@@ -135,7 +170,7 @@ else {
         header('Location: ' . $redirect);
     }
 }
-}*/
+}
 else {
     $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
 	header('Location: ' . $redirect);

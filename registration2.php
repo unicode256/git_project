@@ -2,8 +2,25 @@
 include 'setting.php';
 session_start();
 //session_destroy();
-$_SESSION['provisional_id'] = 45;
-date_default_timezone_set('UTC');
+//$_SESSION['provisional_id'] = 45;
+if(!isset($_SESSION['id'])){
+    if(isset($_SESSION['provisional_id'])){
+        if(isset($_POST['return']) || !empty($_SESSION['id_reg_again'])){
+            $_SESSION['id_reg_again'] = $_SESSION['provisional_id'];
+            $_SESSION['provisional_id'] = "";
+            $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration1.php';
+            header('Location: ' . $redirect);
+            break;
+
+        }
+    echo 'ggg<br />';
+    $id = $_SESSION['provisional_id'];
+    echo $id;
+    echo $_SESSION['id_reg_again'];
+    $query0 = "SELECT * FROM `USERS` WHERE `id` = '$id'";
+    $result0 = mysqli_query($CONNECT, $query0);
+    if(mysqli_num_rows($result0) == 1){
+    if($row0['regst2'] == 0 && $row0['regst3'] == 0) {
 $male_input_style = "";
 $female_input_style = "";
 if(isset($_SESSION['sex'])){
@@ -16,10 +33,7 @@ if(isset($_SESSION['sex'])){
         $male_input_style = "";
     }
 }
-if(!isset($_SESSION['id'])){
-    if(isset($_SESSION['provisional_id'])){
-$id = $_SESSION['provisional_id'];
-echo $id;
+
 $error_property_sex = "";
 $error_birth_day = "";
 $error_birth_month = "";
@@ -27,70 +41,6 @@ $error_birth_year = "";
 $error_property_city = "";
 $error_msg = "";
 $error_msg1 = "";
-
-//---------- секция, где написаны инструкции, которые необходимы для корректной отправки письма с подтверждением
-$attach = array(
-    'imgs/1.png',
-    'imgs/2.png'
-);
-$text = '
-<html>
-    <body>
-        <p style="width: 600px; margin-left: auto; margin-right: auto;"><img src="cid:1.png"></p>
-        <p style="color: #000; font-family: \'Helvetica\'; font-size: 15px; width: 600px; text-align: center; margin-top: 20px; margin-left: auto; margin-right: auto;">
-        Подтвердите, что вы получили это письмо – и Вы сможете войти в свой аккаунт.</p>
-        <p style="font-family: \'Helvetica\'; width: 600px; margin-left: auto; margin-right: auto; margin-top: 20px;"><a href="google.com"><img src="cid:2.png"></a></p>
-        <p style="font-family: \'Helvetica\'; color: #000; width: 600px; text-align: center; font-size: 15px; margin-top: 20px; margin-left: auto; margin-right: auto;">Также, рекомендуем Вам ознакомиться с 
-        <a href="google.com" style="color: #57A7FF; text-decoration: none;">правилами</a> работы нашего сайта.</p>
-    </body>
-    </html>
-';
-$from = "confirmation@nytakoe.com";
-$to = "alisa.andreeva3301@gmail.com";
-$subject = "Письмо для подтверждения регистрации";
-  
-$headers = "From: $from\r\n";
-$headers .= "Subject: $subject\r\n";
-$headers .= "Date: " . date("r") . "\r\n";
-$headers .= "X-Mailer: zm php script\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .="Content-Type: multipart/alternative;\r\n";
-$baseboundary = "------------" . md5(microtime());
-$headers .= "  boundary=\"$baseboundary\"\r\n";
-
-$message  =  "--$baseboundary\r\n";
-$message .= "Content-Type: text/plain;\r\n";
-$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-$message .= "--$baseboundary\r\n";
-
-$newboundary = "------------" . md5(microtime());
-$message .= "Content-Type: multipart/related;\r\n";
-$message .= "  boundary=\"$newboundary\"\r\n\r\n\r\n";
-$message .= "--$newboundary\r\n";
-$message .= "Content-Type: text/html; ".
-"charset=utf-8\r\n";
-$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-$message .= $text . "\r\n\r\n";
-  
-foreach($attach as $filename){
-    $mimeType='image/png';
-    $fileContent = file_get_contents($filename,true);
-    $filename = basename($filename);
-    $message.="--$newboundary\r\n";
-    $message.="Content-Type: $mimeType;\r\n";
-    $message.=" name=\"$filename\"\r\n";
-    $message.="Content-Transfer-Encoding: base64\r\n";
-    $message.="Content-ID: <$filename>\r\n";
-    $message.="Content-Disposition: inline;\r\n";
-    $message.=" filename=\"$filename\"\r\n\r\n";
-    $message.=chunk_split(base64_encode($fileContent));
-}  
-
-$message.="--$newboundary--\r\n\r\n";
-$message.="--$baseboundary--\r\n";
-  
-//$result = mail($to, $subject, $message , $headers);
-//---------- конец этой секции
 
 if(isset($_POST['male'])){
     $sex = 'male';
@@ -301,11 +251,30 @@ else {
             <input type="text" name="city" autocomplete="off" <?php if(!empty($error_property_city)) echo $error_property_city;?> value="<?php if(!empty($city)) echo $city;?>"/>
             <h2 id="label_last">И подтвердить адрес Вашей электронной почты.</h2>
             <input type="submit" name="submit" value="Понятно, давайте дальше">
+            <input type="submit" name="return" value="Вернуться назад">
             <?php if(!empty($error_msg)) echo $error_msg;?>
         </form>
     </body>
     </html><?php echo $error;
     }
+    else if($row0['regst2'] == 1 && $row0['regst3'] == 0){
+        //$redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration3.php';
+        //header('Location: ' . $redirect);
+        echo 'error 1';
+    }
+    else if($row0['regst2'] == 1 && $row0['regst3'] == 1){
+        //$redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
+        //header('Location: ' . $redirect);
+        echo 'error 2';
+    }
+    }
+else {
+    //$redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
+    //header('Location: ' . $redirect);
+    echo 'error 3';
+    echo mysqli_num_rows($result0);
+}
+}
 else {
     $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
 	header('Location: ' . $redirect);

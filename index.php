@@ -39,6 +39,7 @@ if($birth_month >= $currnet_month){
 		$age--;
 	}
 }
+echo $_SESSION['provisional_id'] . 'ff';
 ?>
 <!DOCTYPE html>
 <html>

@@ -1,20 +1,26 @@
 <?php
 session_start();
+//session_destroy();
 include 'setting.php';
+//$_SESSION['provisional_id'] = 47;
+date_default_timezone_set('UTC');
 if(!isset($_SESSION['id'])){
     if(isset($_SESSION['provisional_id'])){
         $error_msg = "";
         $id = $_SESSION['provisional_id'];
         $query = "SELECT * FROM `USERS` WHERE `id` = '$id'";
         $result = mysqli_query($CONNECT, $query);
+        if(mysqli_num_rows($result) == 1){
         $row = mysqli_fetch_array($result);
+        $email = $row['email'];
+        if($row['regst2'] == 1 && $row['regst3'] == 0){
         $name = $row['name'];
         $surname = $row['surname'];
-        $email = $row['email'];
         $enc_email = str_replace("=", "", base64_encode($email));//перекинуть потом пару символов вперёд
         $code = rand(11000, 30000);
         $enc_code = str_replace("=", "", base64_encode($code));//и здесь тоже
-
+        //echo $id;
+        //echo $email;
         $attach = array(
             'imgs/1.png',
             'imgs/2.png'
@@ -32,7 +38,7 @@ if(!isset($_SESSION['id'])){
             </html>
         ';
         $from = "confirmation@nytakoe.com";
-        $to = "alisa.andreeva3301@gmail.com";
+        $to = $email;
         $subject = "Письмо для подтверждения регистрации";
           
         $headers = "From: $from\r\n";
@@ -121,14 +127,37 @@ if(!isset($_SESSION['id'])){
             <?php if(!empty($error_msg)) echo $error_msg;?>
         </div>
     </body>
-</html><?php 
+</html><?php
+        }
+        else if($row['regst2'] == 0 && $row['regst3'] == 0){
+            $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/registration2.php';
+            header('Location: ' . $redirect);
+            echo 'error 0<br />' ;
+        }
+        else if($row['regst2'] == 1 && $row['regst3'] == 1){
+            $_SESSION['id'] = $id;
+            if(!empty($_SESSION['provisional_id'])){
+                $_SESSION['provisional_id'] = "";
+            }
+            $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
+            header('Location: ' . $redirect);
+            
+        }
     }
     else {
         $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
-	    header('Location: ' . $redirect);
+        header('Location: ' . $redirect);
+        echo 'error 2<br />';
     }
 }
 else {
     $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
-	header('Location: ' . $redirect);
+    header('Location: ' . $redirect);
+    echo 'error 3<br />';
+}
+} 
+else {
+    $redirect = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php';
+    header('Location: ' . $redirect);
+    
 }
